@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user{
+id String @id @default(uuid()) 
+nom String 
+prenom String 
+dateDeNaissance DateTime 
+email String 
+password String 
+Location String 
+watchId smartWatch? 
+}
+model doctor{
+id String @id @default(uuid()) 
+nom String 
+prenom String 
+adress String 
+}
+model device{
+id String @id @default(uuid()) 
+etat_malade String
+}
+
+model nurse{
+id String @id @default(uuid()) 
+nom String
+}
+model symptom{
+code String @id @default(uuid()) 
+nom String 
+illnesses illness[]
+}
+model illness{
+code String @id @default(uuid()) 
+nom String 
+symp symptom[] 
+}
+model floor{
+num Int @unique 
+rooms room[] 
+}
+model room{
+  id Int @unique 
+NumEt Int 
+etag floor @relation(fields: [NumEt], references: [num]) 
+beds bed[]
+}
+model bed{
+id String @id @default(uuid()) 
+NumBed Int 
+RoomId Int 
+Room room @relation(fields: [RoomId], references: [id]) 
+}
+model smartWatch{
+id String @id @default(uuid()) 
+userId String @unique 
+User user @relation(fields: [userId], references: [id]) 
+ambulances ambulance[]
+}
+model ambulance{
+id String @id @default(uuid()) 
+smartWatches smartWatch[] 
+}

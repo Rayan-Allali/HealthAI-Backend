@@ -1,0 +1,27 @@
+{
+  "name": "devfast-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rayan-Allali/devfast-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rayan-Allali/devfast-backend/issues"
+  },
+  "homepage": "https://github.com/Rayan-Allali/devfast-backend#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "prisma": "^4.8.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}
