@@ -2,6 +2,7 @@ const {PrismaClient}=require('@prisma/client')
 const prisma=new PrismaClient()
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
+const {promisify}=require('util')
  /* password=await bcrypt.hash(password,12) */
 exports.signUp=async(req,res)=>{
     try{
@@ -58,4 +59,25 @@ catch(err){
     console.error(err)
     return res.status(500).json({status:500,message:"an error occurred"})
 }
+}
+exports.protect=async(req,res,next)=>{
+    let token;
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    token=req.headers.authorization.split(' ')[1]
+    }
+    console.log(token)
+    if(!token){
+        return res.status(401).json({status:401,message:"you are not logged in "})
+    }
+   const decoded= await promisify(jwt.verify)(token,process.env.JWT_SECRET_KEY)
+   const patient=await prisma.patient.findFirst({
+    where:{
+        id:decoded.id
+    }
+   })
+   if(!patient){
+    return res.status(401).json({status:401,message:"the patient belonging to this token does no longer exsist"})
+   }
+   req.patient=patient
+    next()
 }
