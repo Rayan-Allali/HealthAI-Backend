@@ -48,7 +48,7 @@ exports.getShift=async(req,res)=>{
     if(!id) {return res.status(400).json({status:400,message:"invalide id"})}
     const Shift=await prisma.shift.findFirst({
         where:{
-            id
+            numShift:id
         }
     })
     if(!Shift){
@@ -77,7 +77,7 @@ const id=req.params.id*1
 if(!id){return res.status(400).json({status:400,message:"Invalid  id"})}
 const deletedShift=await prisma.shift.findFirst(
     {where:{
-        id
+        numShift:id
     }}
 )
 if(!deletedShift){
@@ -88,7 +88,7 @@ if(!deletedShift){
 }
 const Shift=await prisma.shift.delete(
     {where:{
-        id
+        numShift:id
     }}
 )
 return res.status(204).json({

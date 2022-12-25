@@ -74,7 +74,7 @@ exports.AddNurse=async(req,res)=>{
 
 exports.deleteNurse=async(req,res)=>{
     try{
-const {id}=req.params
+const id=req.params.id*1
 if(!id){return res.status(400).json({status:400,message:"Invalid  id"})}
 const deletedNurse=await prisma.nurse.findFirst(
     {where:{

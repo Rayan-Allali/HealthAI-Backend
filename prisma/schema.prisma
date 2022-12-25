@@ -39,6 +39,8 @@ adress String
 specialite String
 shifts shift[]
 consulations consulation[]
+email String
+password String
 }
 model consulation{
   date DateTime 
