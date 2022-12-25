@@ -10,8 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user{
-id String @id @default(uuid()) 
+model patient{
+id Int @id @default(uuid()) 
 nom String 
 prenom String 
 dateDeNaissance DateTime 
@@ -21,22 +21,22 @@ Location String
 watchId smartWatch? 
 }
 model doctor{
-id String @id @default(uuid()) 
+id Int @id @default(uuid()) 
 nom String 
 prenom String 
 adress String 
 }
 model device{
-id String @id @default(uuid()) 
+id Int @id @default(uuid()) 
 etat_malade String
 }
 
 model nurse{
-id String @id @default(uuid()) 
+id Int @id @default(uuid()) 
 nom String
 }
 model symptom{
-code String @id @default(uuid()) 
+code Int @id @default(uuid()) 
 nom String 
 illnesses illness[]
 }
@@ -56,18 +56,18 @@ etag floor @relation(fields: [NumEt], references: [num])
 beds bed[]
 }
 model bed{
-id String @id @default(uuid()) 
+id Int @id @default(uuid()) 
 NumBed Int 
 RoomId Int 
 Room room @relation(fields: [RoomId], references: [id]) 
 }
 model smartWatch{
-id String @id @default(uuid()) 
-userId String @unique 
+id Int @id @default(uuid()) 
+userId Int @unique 
 User user @relation(fields: [userId], references: [id]) 
 ambulances ambulance[]
 }
 model ambulance{
-id String @id @default(uuid()) 
+id Int @id @default(uuid()) 
 smartWatches smartWatch[] 
 }
