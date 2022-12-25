@@ -7,11 +7,19 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url =env("DATABASE_URL")
 }
 
+model shift{
+numShift Int @id @default(autoincrement())
+heureDeb DateTime
+heureFin DateTime
+Date DateTime 
+doctors doctor[]
+nurses nurse[]
+}
 model patient{
-id Int @id @default(uuid()) 
+id Int @id
 nom String 
 prenom String 
 dateDeNaissance DateTime 
@@ -19,24 +27,44 @@ email String
 password String 
 Location String 
 watchId smartWatch? 
+deviceId device?
+conceptions consulation[]
+bedId bed?
 }
 model doctor{
-id Int @id @default(uuid()) 
+id Int @id
 nom String 
 prenom String 
 adress String 
+specialite String
+shifts shift[]
+consulations consulation[]
+}
+model consulation{
+  date DateTime 
+  consulation String
+  id Int @id @default(autoincrement())
+  doctorId Int
+  doct doctor @relation(fields: [doctorId], references: [id]) 
+  PatientId Int 
+  patie patient @relation(fields: [PatientId], references: [id])
+
 }
 model device{
-id Int @id @default(uuid()) 
+id Int @id
 etat_malade String
+patientId Int @unique 
+patient patient @relation(fields: [patientId], references: [id]) 
 }
 
 model nurse{
-id Int @id @default(uuid()) 
+id Int @id
 nom String
+prenom String
+shifts shift[]
 }
 model symptom{
-code Int @id @default(uuid()) 
+code Int @id 
 nom String 
 illnesses illness[]
 }
@@ -56,18 +84,21 @@ etag floor @relation(fields: [NumEt], references: [num])
 beds bed[]
 }
 model bed{
-id Int @id @default(uuid()) 
+id Int @id 
 NumBed Int 
 RoomId Int 
 Room room @relation(fields: [RoomId], references: [id]) 
+patientId Int @unique 
+patient patient @relation(fields: [patientId], references: [id]) 
 }
 model smartWatch{
-id Int @id @default(uuid()) 
-userId Int @unique 
-User user @relation(fields: [userId], references: [id]) 
+id Int @id 
+patientId Int @unique 
+patient patient @relation(fields: [patientId], references: [id]) 
 ambulances ambulance[]
 }
 model ambulance{
-id Int @id @default(uuid()) 
-smartWatches smartWatch[] 
+id Int @id 
+chauffeur String
+smartWatches smartWatch[]
 }
