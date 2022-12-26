@@ -18,6 +18,7 @@ Date DateTime @db.Date
 doctors doctor[]
 nurses nurse[]
 }
+
 model patient{
 id Int @id
 nom String 
@@ -31,6 +32,22 @@ deviceId device?
 conceptions consulation[]
 bedId bed?
 requestes request[]
+analyses analyse[]
+}
+model analyse{
+  id Int @id @default(autoincrement())
+  type Type 
+  patientId Int
+  Patient patient @relation(fields: [patientId],references: [id])
+  img String
+}
+
+enum Type{
+  General
+  X_ray
+  MRI
+  Cardio
+
 }
 model doctor{
 id Int @id
