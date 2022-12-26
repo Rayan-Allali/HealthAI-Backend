@@ -12,9 +12,9 @@ datasource db {
 
 model shift{
 numShift Int @id @default(autoincrement())
-heureDeb DateTime
-heureFin DateTime
-Date DateTime 
+heureDeb DateTime @db.Time()
+heureFin DateTime @db.Time()
+Date DateTime @db.Date
 doctors doctor[]
 nurses nurse[]
 }
@@ -30,6 +30,7 @@ watchId smartWatch?
 deviceId device?
 conceptions consulation[]
 bedId bed?
+requestes request[]
 }
 model doctor{
 id Int @id
@@ -41,6 +42,20 @@ shifts shift[]
 consulations consulation[]
 email String
 password String
+responses response[]
+}
+model request{
+  id Int @id @default(autoincrement())
+  question String
+  patientId Int 
+  Patient patient @relation(fields: [patientId], references: [id]) 
+}
+
+model response{
+  id Int @id @default(autoincrement())
+  text String
+  DoctorId Int
+ Doctor doctor @relation(fields: [DoctorId], references: [id]) 
 }
 model consulation{
   date DateTime 
@@ -63,6 +78,8 @@ model nurse{
 id Int @id
 nom String
 prenom String
+password String
+email String
 shifts shift[]
 }
 model symptom{
@@ -101,6 +118,9 @@ ambulances ambulance[]
 }
 model ambulance{
 id Int @id 
-chauffeur String
+chauffeurNom String
+password String
+email String
 smartWatches smartWatch[]
+Location String
 }
