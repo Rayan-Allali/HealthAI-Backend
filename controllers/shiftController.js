@@ -49,6 +49,12 @@ exports.getShift=async(req,res)=>{
     const Shift=await prisma.shift.findFirst({
         where:{
             numShift:id
+        },
+        select:{
+            heureDeb:true,
+            heureFin:true,
+            Date:true,
+            doctors:true
         }
     })
     if(!Shift){
